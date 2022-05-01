@@ -23,7 +23,7 @@ export class House {
 					this.fundNeed = _fundNeed;
 					this.fundCollected = u128.from(0);
 					this.isCompleted = false;
-					this.donators = new PersistentUnorderedMap<string,u128>(_houseId)
+					this.donators = new PersistentUnorderedMap<string,u128>(_houseId);
 					logging.log("The house was registered by "+ this.initiator + " with id(note the id please): " + this.houseId +". The fund needed for this house is "+ this.fundNeed.toString() + " Near.");
 				}
 	

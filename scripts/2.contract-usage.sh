@@ -39,7 +39,7 @@ echo "Observe the arguments given ('fundNeed' and 'numOfHouses')"
 echo ----------------------------------------------------------------------------------------------------
 echo
 
-near call $CONTRACT addHouse '{"fundNeed":"100", "numOfHouses":"1"}' --accountId $CONTRACT
+near call $CONTRACT addHouse '{"fundNeed":"111", "numOfHouses":"1"}' --accountId $CONTRACT
 
 
 echo
@@ -83,7 +83,7 @@ echo ---------------------------------------------------------------------------
 echo
 
 
-near call $CONTRACT getDetailsByHouseId '{"houseId":"1"}' --accountId $CONTRACT
+near call $CONTRACT getDetailsByHouseId '{"houseId":"0"}' --accountId $CONTRACT
 
 
 echo
@@ -95,7 +95,7 @@ echo ---------------------------------------------------------------------------
 echo
 
 
-near call $CONTRACT donateById '{"amount":"10","houseId":"1"}' --accountId $CONTRACT
+near call $CONTRACT donateById '{"houseId":"0"}' --amount=1 --accountId $CONTRACT
 
 
 echo
@@ -106,7 +106,7 @@ echo ---------------------------------------------------------------------------
 echo
 
 
-near call $CONTRACT getDetailsByHouseId '{"houseId":"1"}' --accountId $CONTRACT
+near call $CONTRACT getDetailsByHouseId '{"houseId":"0"}' --accountId $CONTRACT
 
 
 echo
@@ -117,7 +117,7 @@ echo ---------------------------------------------------------------------------
 echo
 
 
-near call $CONTRACT donateById '{"amount":"141","houseId":"1"}' --accountId $CONTRACT
+near call $CONTRACT donateById '{"houseId":"0"}' --amount=10 --accountId $CONTRACT
 
 
 echo
@@ -128,7 +128,7 @@ echo ---------------------------------------------------------------------------
 echo
 
 
-near call $CONTRACT donateById '{"amount":"140","houseId":"1"}' --accountId $CONTRACT
+near call $CONTRACT donateById '{"houseId":"1"}' --amount=10 --accountId $CONTRACT
 
 
 echo
