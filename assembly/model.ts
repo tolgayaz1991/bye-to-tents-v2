@@ -1,4 +1,4 @@
-import { context, PersistentUnorderedMap, logging, storage, u128 } from "near-sdk-as";
+import { context, PersistentUnorderedMap, logging, storage, u128, ContractPromiseBatch } from "near-sdk-as";
 
 
 // House class
@@ -30,13 +30,15 @@ export class House {
 	// change method(s)
 
 	//donate to this house
-	donate(amount: u128): void {
+	donate(): void {
 
 			assert(!(this.isCompleted), "Donation is unsuccessful. Funding for this house was completed. Try to donate to another house.");
-			assert(u128.add(this.fundCollected,amount) <= this.fundNeed, "Donation is unsuccessful. You can donate at most " + (u128.sub(this.fundNeed,this.fundCollected)).toString() + " Near for this house.")
+			let amountInNear = context.attachedDeposit.toF64()/10**24;
+			assert((this.fundCollected.toF64() + amountInNear) <= this.fundNeed.toF64(), "Donation is unsuccessful. You can donate at most " + (u128.sub(this.fundNeed,this.fundCollected)).toString() + " Near for this house.")
 			
-			this.fundCollected = u128.add(this.fundCollected,amount);
-			logging.log(amount.toString() + " Near was donated successfully by " + context.sender + " to the house with id " + this.houseId + ". Thanks.");
+			this.fundCollected = u128.from(this.fundCollected.toF64() + amountInNear);
+			ContractPromiseBatch.create(this.initiator).transfer(context.attachedDeposit);
+			logging.log(amountInNear.toString() + " Near was donated successfully by " + context.sender + " to the house with id " + this.houseId + ". Thanks.");
             
             if (this.fundCollected == this.fundNeed) {
                 this.isCompleted = true;

@@ -41,19 +41,18 @@ export function clearAllHouses():string {
 
 
 //donate to a house by id
-export function donateById(houseId:u64, amount:u128): string {
+export function donateById(houseId:u64): string {
 
     assert(houses.length != 0, "Donation is unsuccessful. There is no house to donate yet.")
     assert(houses.contains(houseId.toString()), "Donation is unsuccessful. The house id that you entered does not exist, try again with different house id.")
-    assert(amount > u128.Zero, "Donation is unsuccessful. The donation amount should be greater than 0 Near.")
-
+    assert(context.attachedDeposit > u128.Zero, "Donation is unsuccessful. The donation amount should be greater than 0 Near.")
+    
     let houseToDonate = houses.getSome(houseId.toString());
-
-    houseToDonate.donate(amount);
+    houseToDonate.donate();
 
     houses.set(houseId.toString(),houseToDonate);
 
-    return "Donation " + amount.toString() + " Near by " + context.sender + " was successful. Thanks."
+    return "Donation " + (context.attachedDeposit.toF64()/10**24).toString() + " Near by " + context.sender + " was successful. Thanks."
 }
 
 
@@ -72,4 +71,9 @@ export function getDetailsByHouseId(houseId:u64):string {
     assert(houses.contains(houseId.toString()), "The house id that you entered does not exist, try again with different house id.")
 
     return houses.getSome(houseId.toString()).getDetails();
+}
+
+export function donateAmount():string{
+    let amountInNear = context.attachedDeposit.toF64()/10**24;
+    return context.attachedDeposit.toString() +" other: " + amountInNear.toString();
 }
