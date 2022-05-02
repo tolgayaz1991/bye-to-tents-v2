@@ -6,8 +6,8 @@ import { context, PersistentUnorderedMap, logging, storage, u128, ContractPromis
 export class House {
 	houseId: string;
 	initiator: string;
-	fundNeed: u128; //in Nears
-	fundCollected: u128; //in Nears
+	fundNeed: u128; //in yoctoNears
+	fundCollected: u128; //in yoctoNears
 	isCompleted: bool;
 	donators: PersistentUnorderedMap<string, u128>;  //to be used in later versions
 
@@ -21,10 +21,10 @@ export class House {
 					this.houseId = _houseId;
 					this.initiator = _initiator;
 					this.fundNeed = _fundNeed;
-					this.fundCollected = u128.from(0);
+					this.fundCollected = u128.fromString("0");
 					this.isCompleted = false;
 					this.donators = new PersistentUnorderedMap<string,u128>(_houseId);
-					logging.log("The house was registered by "+ this.initiator + " with id(note the id please): " + this.houseId +". The fund needed for this house is "+ this.fundNeed.toString() + " Near.");
+					logging.log("The house was registered by "+ this.initiator + " with id(note the id please): " + this.houseId +". The fund needed for this house is "+ (this.fundNeed.toF64()/10**24).toString() + " Near.");
 				}
 	
 	// change method(s)
@@ -34,15 +34,15 @@ export class House {
 
 			assert(!(this.isCompleted), "Donation is unsuccessful. Funding for this house was completed. Try to donate to another house.");
 			let amountInNear = context.attachedDeposit.toF64()/10**24;
-			assert((this.fundCollected.toF64() + amountInNear) <= this.fundNeed.toF64(), "Donation is unsuccessful. You can donate at most " + (u128.sub(this.fundNeed,this.fundCollected)).toString() + " Near for this house.")
+			assert(u128.add(this.fundCollected, context.attachedDeposit) <= this.fundNeed, "Donation is unsuccessful. You can donate at most " + (u128.sub(this.fundNeed,this.fundCollected)).toString() + " Near for this house.");
 			
-			this.fundCollected = u128.from(this.fundCollected.toF64() + amountInNear);
+			this.fundCollected = u128.add(this.fundCollected, context.attachedDeposit);
 			ContractPromiseBatch.create(this.initiator).transfer(context.attachedDeposit);
 			logging.log(amountInNear.toString() + " Near was donated successfully by " + context.sender + " to the house with id " + this.houseId + ". Thanks.");
             
             if (this.fundCollected == this.fundNeed) {
                 this.isCompleted = true;
-                logging.log("All of the required fund "+ this.fundNeed.toString() +" Near was collected for this house with id " + this.houseId.toString()+ ". Thanks.")
+                logging.log("All of the required fund "+ (this.fundNeed.toF64()/10**24).toString() +" Near was collected for this house with id " + this.houseId.toString()+ ". Thanks.")
             }
 		}
 
@@ -53,9 +53,9 @@ export class House {
 	//view the details about this house's funding situation
 	getDetails(): string {
 		if (!this.isCompleted){
-			return "Collected fund for this house (with id " + this.houseId.toString() +"): " + this.fundCollected.toString() + " Near" + "    ----->    " + "Remaining fund need: " +(u128.sub(this.fundNeed, this.fundCollected)).toString() + " Near."; }
+			return "Collected fund for this house (with id " + this.houseId.toString() +"): " + (this.fundCollected.toF64()/10**24).toString() + " Near" + "    ----->    " + "Remaining fund need: " +((u128.sub(this.fundNeed, this.fundCollected)).toF64()/10**24).toString() + " Near."; }
 		else {
-			return "All of the required fund "+ this.fundNeed.toString() +" Near was collected for this house with id " + this.houseId.toString() + ". Thanks.";
+			return "All of the required fund "+ (this.fundNeed.toF64()/10**24).toString() +" Near was collected for this house with id " + this.houseId.toString() + ". Thanks.";
 		}
 	}
 }

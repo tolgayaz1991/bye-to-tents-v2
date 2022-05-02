@@ -39,7 +39,7 @@ echo "Observe the arguments given ('fundNeed' and 'numOfHouses')"
 echo ----------------------------------------------------------------------------------------------------
 echo
 
-near call $CONTRACT addHouse '{"fundNeed":"111", "numOfHouses":"1"}' --accountId $CONTRACT
+near call $CONTRACT addHouse '{"fundNeed":"111000000000000000000000000", "numOfHouses":"1"}' --accountId $CONTRACT
 
 
 echo
@@ -61,7 +61,7 @@ echo ---------------------------------------------------------------------------
 echo
 
 
-near call $CONTRACT addHouse '{"fundNeed":"150", "numOfHouses":"10"}' --accountId $CONTRACT --gas 100000000000000
+near call $CONTRACT addHouse '{"fundNeed":"150000000000000000000000000", "numOfHouses":"10"}' --accountId $CONTRACT --gas 100000000000000
 
 
 echo

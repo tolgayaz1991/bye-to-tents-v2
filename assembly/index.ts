@@ -1,4 +1,4 @@
-import { context, storage, PersistentUnorderedMap, u128} from "near-sdk-as"
+import { context, storage, PersistentUnorderedMap, u128, ContractPromiseBatch} from "near-sdk-as"
 import { House, houses} from './model';
 
 
@@ -71,9 +71,4 @@ export function getDetailsByHouseId(houseId:u64):string {
     assert(houses.contains(houseId.toString()), "The house id that you entered does not exist, try again with different house id.")
 
     return houses.getSome(houseId.toString()).getDetails();
-}
-
-export function donateAmount():string{
-    let amountInNear = context.attachedDeposit.toF64()/10**24;
-    return context.attachedDeposit.toString() +" other: " + amountInNear.toString();
 }
