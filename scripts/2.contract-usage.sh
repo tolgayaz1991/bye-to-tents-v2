@@ -39,7 +39,7 @@ echo "Observe the arguments given ('fundNeed' and 'numOfHouses')"
 echo ----------------------------------------------------------------------------------------------------
 echo
 
-near call $CONTRACT addHouse '{"fundNeed":"111000000000000000000000000", "numOfHouses":"1"}' --accountId $CONTRACT
+near call $CONTRACT addHouse '{"fundNeed":"55000000000000000000000000", "numOfHouses":"1"}' --accountId $CONTRACT
 
 
 echo
@@ -90,7 +90,7 @@ echo
 echo
 echo -----------------------------------------------------------------------------------------------------------------
 echo "Step 7:  call donateById function to donate some amount to a house that you provide its id as argument"
-echo "Observe the arguments given ('amount' and 'houseId')"
+echo "Observe the arguments given ('houseId')"
 echo -----------------------------------------------------------------------------------------------------------------
 echo
 
@@ -128,7 +128,7 @@ echo ---------------------------------------------------------------------------
 echo
 
 
-near call $CONTRACT donateById '{"houseId":"1"}' --amount=10 --accountId $CONTRACT
+near call $CONTRACT donateById '{"houseId":"1"}' --amount=75 --accountId $CONTRACT
 
 
 echo
