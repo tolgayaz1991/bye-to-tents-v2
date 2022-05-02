@@ -34,7 +34,7 @@ export class House {
 
 			assert(!(this.isCompleted), "Donation is unsuccessful. Funding for this house was completed. Try to donate to another house.");
 			let amountInNear = context.attachedDeposit.toF64()/10**24;
-			assert(u128.add(this.fundCollected, context.attachedDeposit) <= this.fundNeed, "Donation is unsuccessful. You can donate at most " + (u128.sub(this.fundNeed,this.fundCollected)).toString() + " Near for this house.");
+			assert(u128.add(this.fundCollected, context.attachedDeposit) <= this.fundNeed, "Donation is unsuccessful. You can donate at most " + (u128.sub(this.fundNeed,this.fundCollected).toF64()/10**24).toString() + " Near for this house.");
 			
 			this.fundCollected = u128.add(this.fundCollected, context.attachedDeposit);
 			ContractPromiseBatch.create(this.initiator).transfer(context.attachedDeposit);

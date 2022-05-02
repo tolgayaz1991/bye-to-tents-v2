@@ -117,7 +117,7 @@ echo ---------------------------------------------------------------------------
 echo
 
 
-near call $CONTRACT donateById '{"houseId":"0"}' --amount=10 --accountId $CONTRACT
+near call $CONTRACT donateById '{"houseId":"0"}' --amount=55 --accountId $CONTRACT
 
 
 echo
@@ -128,7 +128,7 @@ echo ---------------------------------------------------------------------------
 echo
 
 
-near call $CONTRACT donateById '{"houseId":"1"}' --amount=75 --accountId $CONTRACT
+near call $CONTRACT donateById '{"houseId":"0"}' --amount=54 --accountId $CONTRACT
 
 
 echo
@@ -139,7 +139,7 @@ echo ---------------------------------------------------------------------------
 echo
 
 
-near call $CONTRACT getDetailsByHouseId '{"houseId":"1"}' --accountId $CONTRACT
+near call $CONTRACT getDetailsByHouseId '{"houseId":"0"}' --accountId $CONTRACT
 
 
 echo
